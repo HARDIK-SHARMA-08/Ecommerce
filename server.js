@@ -1,28 +1,34 @@
-const mongoose = require("mongoose");
-const express = require("express");
-const path = require("path");
-const config = require("config");
+import express from "express";
+import color from "colors";
+import dotenv from "dotenv";
+import connect from "./config/db.js";
+import morgan from "morgan";
+import authRoutes from "./routes/authRoute.js";
 
-//Calling Express
+//Config env
+dotenv.config();
+
+//Database config
+connect();
+
 const app = express();
+
+//Middlewares
 app.use(express.json());
+app.use(morgan("dev"));
 
-// used in production to serve client files
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+//Routes
+app.use("/api/v1/auth", authRoutes);
 
-// connecting to mongoDB and then running server on port 4000
-const dbURI = config.get("dbURI");
-const port = process.env.PORT || 4000;
-mongoose
-  .connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then((result) => app.listen(port))
-  .catch((err) => console.log(err));
+//Rest api
+app.get("/", (req, res) => {
+  res.send(`<h1>Server is Running on ${PORT}</h1>`);
+});
+
+//Port
+const PORT = process.env.PORT || 8080;
+
+//Run app
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`.bgCyan.white);
+});

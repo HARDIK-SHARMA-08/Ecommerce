@@ -12,10 +12,16 @@ const router = express.Router();
 //Routing
 //REGISTER || METHOD POST
 router.post("/register", registerController);
+
 //LOGIN || METHOD POST
 router.post("/login", loginController);
 
 //TEST || MEHTOD GET
 router.get("/test", requireSignIn, isAdmin, testController);
+
+//PROTECTED USER ROUTE || METHOD GET
+router.get("/user-auth", requireSignIn, (req, res) => {
+  res.status(200).send({ ok: true });
+});
 
 export default router;

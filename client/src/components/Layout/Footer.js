@@ -10,12 +10,12 @@ const Footer = () => {
             <div className="mb-6 md:mb-0">
               <div className="flex items-center">
                 <img
-                  src="https://cdn-icons-png.flaticon.com/512/1162/1162456.png"
+                  src="https://lh3.google.com/u/3/d/1LjfKRsM1D_qPruFSmxdK3ropdqUCP1Me=w1920-h883-iv1"
                   className="h-12 mr-3"
                   alt="Logo"
                 />
-                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                  E-Commerce
+                <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
+                CARTCRAFT
                 </span>
               </div>
             </div>

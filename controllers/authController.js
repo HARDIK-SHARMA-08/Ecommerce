@@ -5,11 +5,11 @@ import jwt from "jsonwebtoken";
 //Registration Controller
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone } = req.body;
 
     //Validation
-    if (!name || !email || !password || !phone || !address) {
-      return res.send("Please fill the fields");
+    if (!name || !email || !password || !phone) {
+      return res.send({message:"Please fill the fields"});
     }
 
     //Check for User
@@ -17,8 +17,8 @@ export const registerController = async (req, res) => {
     //Existing User
     if (existingUser) {
       return res.status(200).send({
-        success: true,
-        message: "Already Registerd User",
+        success: false,
+        message: "Already Registered User",
       });
     }
 
@@ -29,7 +29,6 @@ export const registerController = async (req, res) => {
       name,
       email,
       phone,
-      address,
       password: hashedPassword,
     }).save();
 
@@ -86,7 +85,6 @@ export const loginController = async (req, res) => {
         name: user.name,
         phone: user.phone,
         email: user.email,
-        address: user.address,
         token,
       },
     });

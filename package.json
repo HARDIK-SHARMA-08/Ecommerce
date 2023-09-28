@@ -9,7 +9,6 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix ./client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
-
   },
   "repository": {
     "type": "git",
@@ -22,6 +21,11 @@
   },
   "homepage": "https://github.com/HARDIK-SHARMA-08/Ecommerce#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
     "concurrently": "^8.2.1",

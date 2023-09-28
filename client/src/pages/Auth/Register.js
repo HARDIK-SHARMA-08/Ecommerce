@@ -1,30 +1,46 @@
 import React, { useState } from "react";
 import { Layout } from "../../components/Layout/Layout";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [number, setNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
 
   //Form Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ name, email, password, number });
-    toast.success("Register Successfully");
+    try {
+      const res = await axios.post("/api/v1/auth/register", {
+        name,
+        email,
+        password,
+        phone,
+      });
+
+      if (res && res.data.success) {
+        toast.success(res.data.message);
+        navigate("/login");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Something went Wrong");
+    }
   };
 
   return (
     <Layout>
       <section className="bg-gray-50 dark:bg-gray-900  ">
         <div className="top-2/4 flex flex-col items-center justify-center px-6 pt-28 mx-auto md:h-full lg:pt-28 pb-6  ">
-          <a
-            href="#"
-            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-          >
+          <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             Register
-          </a>
+          </div>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -91,17 +107,17 @@ const Register = () => {
                 </div>
                 <div>
                   <label
-                    htmlFor="number"
+                    htmlFor="phone"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Contact Number
+                    Contact phone
                   </label>
                   <input
-                    type="number"
+                    type="phone"
                     name="numner"
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
-                    id="number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    id="phone"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="+91 99500XXXXX"
                     required
@@ -109,18 +125,17 @@ const Register = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                 >
-                  Sign in
+                  Sign up
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?{" "}
-                  <a
-                    href="#"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  Already have an account?{" "}
+                  <Link to ="/login"
+                    className="font-medium text-blue-500 hover:underline "
                   >
-                    Sign up
-                  </a>
+                    Sign in
+                  </Link>
                 </p>
               </form>
             </div>

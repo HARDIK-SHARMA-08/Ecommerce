@@ -1,19 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../context/auth";
+import toast from "react-hot-toast";
 
-const Header = ({id}) => {
+const Header = ({ id }) => {
+  const [auth, setAuth] = useAuth();
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    toast.success("Logout Successfully");
+  };
+
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed w-full z-10 px-5 py-2">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <div className="flex items-center">
             <img
-              src=""
+              src="https://lh3.google.com/u/3/d/1LjfKRsM1D_qPruFSmxdK3ropdqUCP1Me=w1920-h883-iv1"
               className="h-12 mr-3"
               alt="Logo"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              E-Commerce
+            <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
+              CARTCRAFT
             </span>
           </div>
           <button
@@ -51,22 +67,38 @@ const Header = ({id}) => {
                   Home
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/register"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Register
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Login
-                </Link>
-              </li>
+
+              {!auth.user ? (
+                <>
+                  <li>
+                    <Link
+                      to="/register"
+                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    >
+                      Register
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/login"
+                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    >
+                      Login
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link
+                    onClick={handleLogout}
+                    to="/login"
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
+                    Logout
+                  </Link>
+                </li>
+              )}
+
               <li>
                 <Link
                   to=""
@@ -80,7 +112,12 @@ const Header = ({id}) => {
                   to="/cart"
                   className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
-                  Cart ({0})
+                  <FontAwesomeIcon
+                    icon={faCartShopping}
+                    size="lg"
+                    style={{ color: "#ffffff" }}
+                  />
+                  ({0})
                 </Link>
               </li>
             </ul>

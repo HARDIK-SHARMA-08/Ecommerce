@@ -9,7 +9,7 @@ export const registerController = async (req, res) => {
 
     //Validation
     if (!name || !email || !password || !phone) {
-      return res.send({message:"Please fill the fields"});
+      return res.send({ message: "Please fill the fields" });
     }
 
     //Check for User
@@ -85,8 +85,9 @@ export const loginController = async (req, res) => {
         name: user.name,
         phone: user.phone,
         email: user.email,
-        token,
+        role: user.role,
       },
+      token,
     });
   } catch (error) {
     console.log(error);

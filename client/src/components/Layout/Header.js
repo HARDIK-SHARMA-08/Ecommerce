@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import PersonIcon from "@mui/icons-material/Person";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
+import Badge from "@mui/material/Badge";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Header = ({ id }) => {
   const [auth, setAuth] = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     setAuth({
@@ -20,7 +22,7 @@ const Header = ({ id }) => {
 
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed w-full z-10 px-5 py-2">
+      <nav className="backdrop-blur-sm bg-gray-900 sticky top-0 w-full z-20 px-5 py-1">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <div className="flex items-center">
             <img
@@ -57,47 +59,16 @@ const Header = ({ id }) => {
             </svg>
           </button>
           <div className="hidden w-full md:block md:w-auto" id={id}>
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="font-medium flex flex-col items-center justify-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
               <li>
                 <Link
                   to="/"
-                  className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   aria-current="page"
                 >
                   Home
                 </Link>
               </li>
-
-              {!auth.user ? (
-                <>
-                  <li>
-                    <Link
-                      to="/register"
-                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                    >
-                      Register
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/login"
-                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                    >
-                      Login
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <li>
-                  <Link
-                    onClick={handleLogout}
-                    to="/login"
-                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  >
-                    Logout
-                  </Link>
-                </li>
-              )}
 
               <li>
                 <Link
@@ -107,17 +78,118 @@ const Header = ({ id }) => {
                   Contact
                 </Link>
               </li>
+
+              {!auth.user ? (
+                <>
+                  <li>
+                    <button
+                      id="dropdownNavbarLink"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                    >
+                      <PersonIcon sx={{ fontSize: 30 }} />
+
+                      <svg
+                        className="w-2.5 h-2.5 ml-2.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 10 6"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="m1 1 4 4 4-4"
+                        />
+                      </svg>
+                    </button>
+                    {/* Dropdown menu */}
+                    <div
+                      id="dropdownNavbar"
+                      className={`${isDropdownOpen ? "block" : "hidden"}`}
+                    >
+                      <ul className="absolute group-hover:flex flex-col p-5 bg-white rounded-md shadow-md gap-5 mt-2">
+                        <li>
+                          <Link to="/register" className="block py-2 pl-3 pr-4">
+                            Register
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/login" className="block py-2 pl-3 pr-4">
+                            Login
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <button
+                      id="dropdownNavbarLink"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="flex items-center justify-between w-full py-2 pl-3 pr-4 uppercase text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                    >
+                      <PersonIcon className="mr-1" sx={{ fontSize: 25 }} />
+                      {auth.user.name}{" "}
+                      <svg
+                        className="w-2.5 h-2.5 ml-2.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 10 6"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="m1 1 4 4 4-4"
+                        />
+                      </svg>
+                    </button>
+                    {/* Dropdown menu */}
+                    <div
+                      id="dropdownNavbar"
+                      className={`${isDropdownOpen ? "block" : "hidden"}`}
+                    >
+                      <ul className="absolute group-hover:flex flex-col p-5 bg-white rounded-md shadow-md gap-5 mt-2">
+                        <li>
+                          <Link
+                            to={`/dashboard/${
+                              auth.user.role === 1 ? "admin" : "user"
+                            }`}
+                            className="block py-2 pl-3 pr-4"
+                          >
+                            Dashboard
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/login"
+                            onClick={handleLogout}
+                            className="block py-2 pl-3 pr-4"
+                          >
+                            Logout
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </>
+              )}
+
               <li>
                 <Link
                   to="/cart"
                   className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
-                  <FontAwesomeIcon
-                    icon={faCartShopping}
-                    size="lg"
-                    style={{ color: "#ffffff" }}
-                  />
-                  ({0})
+                  <Badge badgeContent={0} color="error">
+                    <ShoppingCartIcon sx={{ fontSize: 25 }} />
+                  </Badge>
                 </Link>
               </li>
             </ul>

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Spinner = () => {
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(1);
   const navigate = useNavigate();
   //To access user location history
   const location = useLocation();

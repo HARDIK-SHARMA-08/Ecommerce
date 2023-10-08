@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout } from "../../components/Layout/Layout";
-import {Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../../context/auth";
@@ -41,9 +41,11 @@ const Login = () => {
   return (
     <Layout>
       <section className="bg-gray-50 dark:bg-gray-900">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="p-8 flex flex-col items-center justify-center">
           <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Login
+            <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+              Login{" "}
+            </h1>
           </div>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -91,14 +93,6 @@ const Login = () => {
                     required
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-blue-500 hover:underline"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
@@ -107,7 +101,8 @@ const Login = () => {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
-                  <Link to ="/register"
+                  <Link
+                    to="/register"
                     className="font-medium text-blue-500 hover:underline "
                   >
                     Sign up

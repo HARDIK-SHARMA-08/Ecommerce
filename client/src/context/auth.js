@@ -1,30 +1,35 @@
-//Used for state management
 import React, { useState, useEffect, useContext, createContext } from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({
-    user: null,
-    token: "",
-  });
-
-  //Default Axios
-  axios.defaults.headers.common["Authorization"] = auth && auth.token;
-
-  //Used for storing the data of the logged in user
-  useEffect(() => {
+  // Initialize auth state using localStorage or an empty string
+  const [auth, setAuth] = useState(() => {
     const data = localStorage.getItem("auth");
     if (data) {
-      const parserData = JSON.parse(data);
-      setAuth({
-        ...auth,
-        user: parserData.user,
-        token: parserData.token,
-      });
+      const parsedData = JSON.parse(data);
+      return {
+        user: parsedData.user,
+        token: parsedData.token,
+      };
     }
-  }, []);
+    return {
+      user: null,
+      token: "", // Set to an empty string initially
+    };
+  });
+
+  // Use local state for Axios headers
+  const [axiosAuthHeader, setAxiosAuthHeader] = useState();
+
+  // Update Axios headers whenever auth.token changes
+  useEffect(() => {
+    setAxiosAuthHeader(auth.token);
+  }, [auth.token]);
+
+  // Set the header in Axios
+  axios.defaults.headers.common["Authorization"] = axiosAuthHeader;
 
   return (
     <AuthContext.Provider value={[auth, setAuth]}>
@@ -33,7 +38,6 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-//Custom Hook
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider };

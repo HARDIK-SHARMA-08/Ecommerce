@@ -7,7 +7,7 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <div className="pt-28 pb-6 ">
+      <div className="p-8">
         {" "}
         <h1> HomePage </h1>
         <pre>{JSON.stringify(auth, null, 4)}</pre>

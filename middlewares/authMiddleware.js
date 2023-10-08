@@ -4,13 +4,23 @@ import userModel from "../models/userModel.js";
 //Protect Routes
 export const requireSignIn = async (req, res, next) => {
   try {
-    const decode = jwt.verify(
-      //Token is saved in header of the file
-      req.headers.authorization,
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "JWT token is missing. Please provide a token.",
+      });
+    }
+
+    // Verify the JWT token
+    const decoded = jwt.verify(
+      token.replace("Bearer ", ""),
       process.env.JWT_SECRET
     );
-    //Decrypt
-    req.user = decode;
+
+    // Attach the user information to the request object
+    req.user = decoded;
     next();
   } catch (error) {
     console.log(error);
@@ -31,7 +41,6 @@ export const isAdmin = async (req, res, next) => {
     } else {
       next();
     }
-
   } catch (error) {
     console.log(error);
   }

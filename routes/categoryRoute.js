@@ -21,7 +21,7 @@ router.post(
 );
 
 //UPDATE CATEGORY || METHOD PUT
-router.post(
+router.put(
   "/update-category/:id",
   requireSignIn,
   isAdmin,

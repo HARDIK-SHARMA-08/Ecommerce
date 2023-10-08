@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const Spinner = () => {
+const Spinner = ({ path = "login" }) => {
   const [count, setCount] = useState(1);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   //To access user location history
   const location = useLocation();
@@ -12,8 +13,13 @@ const Spinner = () => {
     const interval = setInterval(() => {
       setCount((prevValue) => --prevValue);
     }, 1000);
-    count === 0 && navigate("/login", { state: location.pathname });
-    toast.error("Unauthorized User")
+    if (count === 0) {
+      navigate(`/${path}`, { state: location.pathname });
+      setShowError(true);
+      if (showError) {
+        toast.error("Unthourized Access");
+      }
+    }
     return () => clearInterval(interval);
   }, [count, navigate, location]);
 

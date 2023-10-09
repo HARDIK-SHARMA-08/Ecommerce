@@ -1,4 +1,5 @@
 import userModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -102,4 +103,26 @@ export const loginController = async (req, res) => {
 //Test Controller
 export const testController = (req, res) => {
   res.send({ message: "Protected Route" });
+};
+
+//Order Controller
+export const getOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find({ buyer: req.user._id })
+      .populate("products", "photo")
+      .populate("buyer", "name");
+      res.status(200).send({
+        success: true,
+        message: "Order created",
+        orders,
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in login",
+      error,
+    });
+  }
 };

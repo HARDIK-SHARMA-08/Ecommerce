@@ -4,10 +4,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import Badge from "@mui/material/Badge";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useCart } from "../../context/cart";
+import Cart from "../../pages/CartPage";
 
 const Header = ({ id }) => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
@@ -72,7 +74,7 @@ const Header = ({ id }) => {
 
               <li>
                 <Link
-                  to=""
+                  to="/contact"
                   className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   Contact
@@ -182,15 +184,10 @@ const Header = ({ id }) => {
                 </>
               )}
 
-              <li>
-                <Link
-                  to="/cart"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  <Badge badgeContent={0} color="error">
-                    <ShoppingCartIcon sx={{ fontSize: 25 }} />
-                  </Badge>
-                </Link>
+              <li className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                <Badge badgeContent={cart.length} color="error">
+                  <Cart />
+                </Badge>
               </li>
             </ul>
           </div>

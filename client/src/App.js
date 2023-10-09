@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage";
 import About from "./pages/AboutPage";
 import PageNotFound from "./pages/PageNotFound";
-import Contact from "./pages/ContactPage";
+import ContactPage from "./pages/ContactPage";
 import Policy from "./pages/Policy";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -16,6 +16,8 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import UserData from "./pages/Admin/UsersData"
 import Order from "./pages/user/Order";
 import Profile from "./pages/user/Profile";
+import Products from "./pages/Admin/Products";
+import Cart from "./pages/CartPage";
 
 function App() {
   return (
@@ -25,8 +27,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/policy" element={<Policy />} />
+        <Route path="/cart" element={<Cart />} />
+
 
         {/* Protected User Route */}
         <Route path="/dashboard" element={<UserPrivateRoute />}>
@@ -41,6 +45,7 @@ function App() {
           <Route path="admin/create-category" element={<CreateCategogy />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/all-users" element={<UserData />} />
+          <Route path="admin/products" element={<Products />} />
         </Route>
 
         <Route path="*" element={<PageNotFound />} />

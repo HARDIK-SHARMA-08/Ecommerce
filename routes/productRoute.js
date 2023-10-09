@@ -53,8 +53,11 @@ router.delete("/delete-product/:pid", deleteProductController);
 //UPDATE PRODUCT || METHOD POST
 router.post("/update-product", updateProductController);
 
-//filter product
-router.post("/product-filters", productFiltersController);
+//FILTER PRODUCT || METHOD POST
+router.post("/product-filter", productFiltersController);
+
+//SEARCH PRODUCT || METHOD GET
+router.get("/search/:keyword", searchProductController);
 
 //product count
 router.get("/product-count", productCountController);
@@ -62,8 +65,7 @@ router.get("/product-count", productCountController);
 //product per page
 router.get("/product-list/:page", productListController);
 
-//search product
-router.get("/search/:keyword", searchProductController);
+
 
 //similar product
 router.get("/related-product/:pid/:cid", realtedProductController);

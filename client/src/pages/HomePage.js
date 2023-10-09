@@ -1,12 +1,73 @@
 import React, { useState, useEffect } from "react";
 import { Layout } from "../components/Layout/Layout";
-import { useAuth } from "../context/auth";
 import axios from "axios";
+import Rating from "@mui/material/Rating";
+import { Prices } from "../components/Search_Filter/PriceFilter";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Checkbox from "@mui/material/Checkbox";
+import Radio from "@mui/material/Radio";
+import { FormControlLabel } from "@mui/material";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import CategoryIcon from "@mui/icons-material/Category";
+import { useCart } from "../context/cart";
+import toast from "react-hot-toast";
 
 const HomePage = () => {
-  const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [Categories, setCategories] = useState([]);
+  const [anchorEl, setanchorEl] = React.useState(null);
+  const [anchorEll, setanchorEll] = React.useState(null);
+  const [checked, setChecked] = useState([]);
+  const [radio, setRadio] = useState([]);
+
+  const openCategory = Boolean(anchorEl);
+  const handleClickCategory = (event) => {
+    setanchorEl(event.currentTarget);
+  };
+  const handleCloseCategory = () => {
+    setanchorEl(null);
+  };
+
+  const openPrice = Boolean(anchorEll);
+  const handleClickPrice = (event) => {
+    setanchorEll(event.currentTarget);
+  };
+  const handleClosePrice = () => {
+    setanchorEll(null);
+  };
+
+  //Get All Category
+  const getAllCategories = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/category/get-category");
+      if (data.success) {
+        setCategories(data.category);
+      } else {
+        console.log("Error in getting Category");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Get all Categories
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  //Filter by Category
+  const handleFilter = (value, id) => {
+    let all = Array.isArray(checked) ? [...checked] : [];
+    if (value) {
+      all.push(id);
+    } else {
+      all = all.filter((c) => c !== id);
+    }
+    setChecked(all);
+  };
 
   //Get all Products
   const getAllProducts = async () => {
@@ -22,9 +83,31 @@ const HomePage = () => {
     getAllProducts();
   }, []);
 
+  //Get Filtered Product
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post(`/api/v1/product/product-filter`, {
+        checked,
+        radio,
+      });
+      setProducts(data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
+
   return (
     <Layout>
-      <div className="p-8">
+      <div className="p-2">
+        {/* Carousel */}
         <div
           id="default-carousel"
           className="relative w-full"
@@ -161,12 +244,88 @@ const HomePage = () => {
             </span>
           </button>
         </div>{" "}
+        <div className="flex gap-6 flex-col items-start sm:flex-row sm:item-center justify-between m-6">
+          <div className="text-5xl text-center font-extrabold tracking-tight leading-none text-black md:text-6xl lg:text-6xl">
+            <h1>All Products </h1>
+          </div>
+          {/* Filters */}
+          <div className="flex flex-col gap-2 items-start sm:flex-row sm:items-center justify-end sm:gap-6 w-fit rounded-3xl">
+            <div>
+              <h4>Filter by</h4>
+            </div>
 
-        <div>
-          <h1 className="mb-10 text-3xl text-center font-extrabold tracking-tight leading-none text-black md:text-6xl lg:text-6xl">
-            All Products{" "}
-          </h1>
+            <div className="flex flex-row gap-2">
+              {/* Filter by Category */}
+              <div>
+                <button
+                  type="submit"
+                  className="p-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-indigo-600 sm:w-fit hover:bg-indigo-800 dark:bg-indigo-600 dark:hover:bg-indigo-600 "
+                  onClick={handleClickCategory}
+                >
+                  <CategoryIcon /> Categories <KeyboardArrowDownIcon />
+                </button>
+                <Menu
+                  iid="basic-menu"
+                  anchorEl={anchorEl}
+                  open={openCategory}
+                  onClose={handleCloseCategory}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  {Categories.map((c) => (
+                    <MenuItem>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            key={c._id}
+                            onChange={(e) => {
+                              handleFilter(e.target.checked, c._id);
+                            }}
+                          />
+                        }
+                        label={c.name}
+                      />{" "}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </div>
+
+              {/* Filter by Price */}
+              <div>
+                {" "}
+                <button
+                  type="submit"
+                  className="p-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-indigo-600 sm:w-fit hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-600 "
+                  onClick={handleClickPrice}
+                >
+                  <CurrencyRupeeIcon /> Price <KeyboardArrowDownIcon />
+                </button>
+                <Menu
+                  iid="basic-menu"
+                  anchorEl={anchorEll}
+                  open={openPrice}
+                  onClose={handleClosePrice}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  {Prices.map((p) => (
+                    <MenuItem key={p._id}>
+                      <FormControlLabel
+                        control={
+                          <Radio onChange={(e) => setRadio(e.target.value)} />
+                        }
+                        label={p.name}
+                      />{" "}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </div>
+            </div>
+          </div>
         </div>
+        {/* Products */}
         <div className="grid grid-cols-1 gap-10 p-2 sm:p-28 sm:pt-2 sm:grid-cols-3">
           {products.map((p) => (
             <div className="w-full max-w-sm bg-white border border-gray-200 rounded-3xl shadow dark:bg-gray-800 dark:border-gray-700">
@@ -175,65 +334,19 @@ const HomePage = () => {
                 src={`/api/v1/product/product-photo/${p._id}`}
                 alt="product image"
               />
-
               <div className="px-5 pb-5">
                 <a href="#">
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {p.name}{" "}
                   </h5>
                 </a>
-
+                {/* Rating */}
                 <div className="flex items-center mt-2.5 mb-5">
-                  <svg
-                    className="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-4 h-4 text-gray-200 dark:text-gray-600"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
+                  <Rating name="read-only" value={5} readOnly />
                   <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                     5.0
                   </span>
                 </div>
-
                 <div className="flex items-center justify-between">
                   <span className="text-3xl font-bold text-gray-900 dark:text-white">
                     {p.price.toLocaleString("en-US", {
@@ -241,12 +354,19 @@ const HomePage = () => {
                       currency: "INR",
                     })}
                   </span>
-                  <a
-                    href="#"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  <button
+                    className="text-white bg-indigo-600 hover:bg-indigo-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-600 "
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p])
+                      );
+                      toast.success(`${p.name} Added to Cart`);
+                    }}
                   >
                     Add to cart
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

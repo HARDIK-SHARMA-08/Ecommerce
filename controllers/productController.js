@@ -187,7 +187,7 @@ export const updateProductController = async (req, res) => {
   }
 };
 
-// filters
+// Filter
 export const productFiltersController = async (req, res) => {
   try {
     const { checked, radio } = req.body;
@@ -203,7 +203,30 @@ export const productFiltersController = async (req, res) => {
     console.log(error);
     res.status(400).send({
       success: false,
-      message: "Error WHile Filtering Products",
+      message: "Error while Filtering Products",
+      error,
+    });
+  }
+};
+
+// Search Product
+export const searchProductController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const resutls = await productModel
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo");
+    res.json(resutls);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error In Search Product API",
       error,
     });
   }
@@ -252,28 +275,7 @@ export const productListController = async (req, res) => {
   }
 };
 
-// search product
-export const searchProductController = async (req, res) => {
-  try {
-    const { keyword } = req.params;
-    const resutls = await productModel
-      .find({
-        $or: [
-          { name: { $regex: keyword, $options: "i" } },
-          { description: { $regex: keyword, $options: "i" } },
-        ],
-      })
-      .select("-photo");
-    res.json(resutls);
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      success: false,
-      message: "Error In Search Product API",
-      error,
-    });
-  }
-};
+
 
 // similar products
 export const realtedProductController = async (req, res) => {

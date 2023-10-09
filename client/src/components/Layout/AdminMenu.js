@@ -4,7 +4,6 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
 
@@ -46,6 +45,9 @@ export default function AdminMenu() {
         </ListItem>
         <ListItem>
           <Link to="/dashboard/admin/create-product">Create Product</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/dashboard/admin/products">Products</Link>
         </ListItem>
         <ListItem>
           <Link to="/dashboard/admin/all-users">All Users</Link>

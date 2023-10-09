@@ -3,6 +3,7 @@ import {
   registerController,
   loginController,
   testController,
+  getOrdersController,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -28,5 +29,8 @@ router.get("/user-auth", requireSignIn, (req, res) => {
 router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   res.status(200).send({ ok: true });
 });
+
+//PROTECTED ORDER ROUTE || METHOD GET
+router.get("/order", requireSignIn, getOrdersController);
 
 export default router;

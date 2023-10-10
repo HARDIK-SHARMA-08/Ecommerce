@@ -59,12 +59,14 @@ router.post("/product-filter", productFiltersController);
 //SEARCH PRODUCT || METHOD GET
 router.get("/search/:keyword", searchProductController);
 
+//Payment Route
+
+
 //product count
 router.get("/product-count", productCountController);
 
 //product per page
 router.get("/product-list/:page", productListController);
-
 
 
 //similar product

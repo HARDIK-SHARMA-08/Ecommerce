@@ -1,11 +1,9 @@
 import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModel.js";
-import orderModel from "../models/orderModel.js";
 import fs from "fs";
 import slugify from "slugify";
-import dotenv from "dotenv";
 
-dotenv.config();
+
 
 //Create Product
 export const createProductController = async (req, res) => {
@@ -274,8 +272,6 @@ export const productListController = async (req, res) => {
     });
   }
 };
-
-
 
 // similar products
 export const realtedProductController = async (req, res) => {

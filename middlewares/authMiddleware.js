@@ -13,6 +13,10 @@ export const requireSignIn = async (req, res, next) => {
       });
     }
 
+    // Logging the token and secret for debugging
+    console.log("Token:", token);
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
     // Verify the JWT token
     const decoded = jwt.verify(
       token.replace("Bearer ", ""),
@@ -23,7 +27,11 @@ export const requireSignIn = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token. Please provide a valid token.",
+    });
   }
 };
 

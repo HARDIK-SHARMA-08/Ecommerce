@@ -1,16 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useAuth } from "../context/auth";
 import { useCart } from "../context/cart";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleToggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -42,6 +46,30 @@ const Cart = () => {
       localStorage.setItem("cart", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //Get Checkout gateway token
+
+  //Handle Checkouts
+  const handleCheckout = async () => {
+    try {
+      // Send the cart data to the backend
+      const { data } = await axios.post("/api/v1/order/checkout", {
+        cart,
+      });
+      if (data.success) {
+        localStorage.removeItem("cart");
+        setCart([]);
+        navigate("/dashboard/user/orders");
+        toast.success("Checkout Completed Successfully");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle other errors if needed
+      toast.error("An error occurred during checkout");
     }
   };
 
@@ -96,7 +124,6 @@ const Cart = () => {
                     <>
                       {cart.map((cart) => (
                         <li class="flex py-6">
-                            
                           <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img
                               src={`/api/v1/product/product-photo/${cart._id}`}
@@ -141,7 +168,6 @@ const Cart = () => {
                   ) : (
                     <>
                       <div>
-                      
                         <div className="max-w-4xl mx-auto px-10 py-4 bg-white rounded-lg">
                           <div className="flex flex-col items-center justify-center py-12">
                             <svg
@@ -173,21 +199,12 @@ const Cart = () => {
                   Shipping and taxes calculated at checkout.
                 </p>
                 <div className="mt-6">
-                  {auth.token ? (
-                    <Link
-                      to="/"
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    >
-                      Checkout
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/login"
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    >
-                      Log in
-                    </Link>
-                  )}
+                  <button
+                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                    onClick={handleCheckout}
+                  >
+                    Checkout
+                  </button>
                 </div>
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                   <p>

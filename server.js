@@ -6,6 +6,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/authRoute.js";
 import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoute.js";
+import orderRoutes from "./routes/orderRoute.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -32,16 +33,17 @@ app.use(express.static(path.join(__dirname, "./client/build")));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 //Rest API
-// app.get("/", (req, res) => {
-//   res.send(`<h1>Server is Running on ${PORT}</h1>`);
-// });
+app.get("/", (req, res) => {
+  res.send(`<h1>Server is Running on ${PORT}</h1>`);
+});
 
 //Deploy Rest API
-app.use("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
-});
+// app.use("*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 
 //Port
 const PORT = process.env.PORT || 8080;

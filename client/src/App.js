@@ -13,11 +13,11 @@ import UserPrivateRoute from "./components/Routes/UserPrivate";
 import AdminPrivateRoute from "./components/Routes/AdminPrivate";
 import CreateCategogy from "./pages/Admin/CreateCategogy";
 import CreateProduct from "./pages/Admin/CreateProduct";
-import UserData from "./pages/Admin/UsersData"
 import Order from "./pages/user/Order";
 import Profile from "./pages/user/Profile";
 import Products from "./pages/Admin/Products";
 import Cart from "./pages/CartPage";
+import AdminOrder from "./pages/Admin/AdminOrder";
 
 function App() {
   return (
@@ -44,7 +44,7 @@ function App() {
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="admin/create-category" element={<CreateCategogy />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
-          <Route path="admin/all-users" element={<UserData />} />
+          <Route path="admin/all-orders" element={<AdminOrder />} />
           <Route path="admin/products" element={<Products />} />
         </Route>
 

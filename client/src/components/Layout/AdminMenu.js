@@ -50,7 +50,7 @@ export default function AdminMenu() {
           <Link to="/dashboard/admin/products">Products</Link>
         </ListItem>
         <ListItem>
-          <Link to="/dashboard/admin/all-users">All Users</Link>
+          <Link to="/dashboard/admin/all-orders">All Orders</Link>
         </ListItem>
       </List>
     </Box>

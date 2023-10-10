@@ -123,8 +123,8 @@ const Cart = () => {
                   {cart.length > 0 ? (
                     <>
                       {cart.map((cart) => (
-                        <li class="flex py-6">
-                          <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <li className="flex py-6">
+                          <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img
                               src={`/api/v1/product/product-photo/${cart._id}`}
                               className="h-full w-full object-contain object-center"

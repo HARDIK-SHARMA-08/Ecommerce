@@ -36,14 +36,14 @@ app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoutes);
 
 //Rest API
-app.get("/", (req, res) => {
-  res.send(`<h1>Server is Running on ${PORT}</h1>`);
-});
-
-//Deploy Rest API
-// app.use("*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// app.get("/", (req, res) => {
+//   res.send(`<h1>Server is Running on ${PORT}</h1>`);
 // });
+
+// Deploy Rest API
+app.use("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 //Port
 const PORT = process.env.PORT || 8080;

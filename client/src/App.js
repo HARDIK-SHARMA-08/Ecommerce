@@ -16,8 +16,11 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import Order from "./pages/user/Order";
 import Profile from "./pages/user/Profile";
 import Products from "./pages/Admin/Products";
-import Cart from "./pages/CartPage";
 import AdminOrder from "./pages/Admin/AdminOrder";
+import ShoppingCart from "./pages/ShoppingCart";
+import ProductDetails from "./pages/Pdp";
+import AllProducts from "./pages/AllProducts";
+import CategoryProduct from "./pages/CategoryProduct";
 
 function App() {
   return (
@@ -29,7 +32,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/policy" element={<Policy />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/product/:slug" element={<ProductDetails />} />
+        <Route path="/category/:slug" element={<CategoryProduct />} />
+        <Route path="/all-products" element={<AllProducts />} />
 
 
         {/* Protected User Route */}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Layout } from "./../../components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
-import CategoryForm from "../../components/Form/CategoryForm";
+import Rating from "@mui/material/Rating";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { blue } from "@mui/material/colors";
@@ -11,6 +11,10 @@ import UserProfile from "../../components/Layout/UserProfile";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   //Get all Products
   const getAllProducts = async () => {
@@ -48,13 +52,15 @@ const Products = () => {
   return (
     <Layout>
       <>
-        <section className="p-8 z-0 bg-white dark:bg-gray-900 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
+        <section className="p-8 z-0 bg-white">
           <div className="flex flex-col-reverse items-center justify-between sm:flex-row-reverse sm:items-start px-4 text-center z-10 gap-6">
             <div className="basis-3/4">
-              <div className="mb-6 text-3xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Manage Product{" "}
+              <div className="mb-6 text-3xl text-center font-semibold italic text-gray-900 md:text-5xl lg:text-6xl ">
+                Manage{" "}
+                <span class="before:block before:absolute before:-inset-1 before:-skew-y-2 hover:before:skew-y-3 before:ease-in before:duration-300 before:bg-[var(--red-color)] relative inline-block">
+                  <span class="relative text-white">products</span>
+                </span>
               </div>
-
               <div className="relative overflow-x-auto shadow-md rounded-lg sm:rounded-lg">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -104,14 +110,57 @@ const Products = () => {
                           {p.quantity}
                         </td>
                         <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                          <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                          <button
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            onClick={handleOpen}
+                          >
                             <EditIcon sx={{ color: blue[500] }} />{" "}
-                            <span className="hidden sm:inline"> Edit</span>
+                            <span className="hidden sm:inline">View</span>
                           </button>
 
-                          <Modal>
-                            <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-                              <CategoryForm />
+                          <Modal open={open} onClose={handleClose}>
+                            <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                              <div className="flex flex-row w-full max-w-lg bg-white border border-gray-200 rounded-3xl shadow">
+                                <div>
+                                  <img
+                                    className="h-full w-full rounded-l-3xl object-cover"
+                                    src={`/api/v1/product/product-photo/${p._id}`}
+                                    alt="product image"
+                                  />
+                                </div>
+                                <div className="p-6">
+                                  <a href="#">
+                                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
+                                      {p.name}{" "}
+                                    </h5>
+                                  </a>
+                                  <h6 className="tracking-tight text-gray-900 ">
+                                    {p.description}{" "}
+                                  </h6>
+                                  <h6 className="text-sm text-gray-100 ">
+                                    Quantity: {p.quantity}{" "}
+                                  </h6>
+                                  {/* Rating */}
+                                  <div className="flex items-center mt-2.5 mb-5">
+                                    <Rating
+                                      name="read-only"
+                                      value={5}
+                                      readOnly
+                                    />
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                                      5.0
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-3xl font-bold text-gray-900">
+                                      {p.price.toLocaleString("en-US", {
+                                        style: "currency",
+                                        currency: "INR",
+                                      })}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
                             </Box>
                           </Modal>
                         </td>
@@ -144,7 +193,7 @@ const Products = () => {
                 </table>
               </div>
             </div>
-            <div className=" basis-1/4  w-full sm:sticky top-28 sm:w-4/12 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className=" basis-1/4  w-full sm:sticky top-28 sm:w-4/12 bg-white border-2 border-[var(--black-color)] rounded-lg shadow-xl">
               <UserProfile />
             </div>
           </div>

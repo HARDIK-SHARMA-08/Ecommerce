@@ -3,14 +3,11 @@ import categoryModel from "../models/categoryModel.js";
 import fs from "fs";
 import slugify from "slugify";
 
-
-
 //Create Product
 export const createProductController = async (req, res) => {
   try {
     //Since formidable is used that why req.field & req.body is used
-    const { name, description, price, category, quantity, shipping } =
-      req.fields;
+    const { name, description, price, quantity, category } = req.fields;
     const { photo } = req.files;
 
     //Validation
@@ -21,10 +18,10 @@ export const createProductController = async (req, res) => {
         return res.status(500).send({ error: "Description is Required" });
       case !price:
         return res.status(500).send({ error: "Price is Required" });
-      case !category:
-        return res.status(500).send({ error: "Category is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
+      case !category:
+        return res.status(500).send({ error: "Category is Required" });
       case photo && photo.size > 1000000:
         return res
           .status(500)

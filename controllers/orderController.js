@@ -1,10 +1,33 @@
 import orderModel from "../models/orderModel.js";
-import stripe from "stripe";
+import braintree from "braintree";
+import dotenv from "dotenv";
 
-const stripeInstance = stripe(process.env.PRIVATE_API_KEY);
+dotenv.config();
+
+//Payment Gateway
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
+
+export const tokenController = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(response);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //Checkout
-export const checkoutController = async (req, res) => {
+export const paymentController = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -12,21 +35,39 @@ export const checkoutController = async (req, res) => {
         message: "Authentication required",
       });
     }
-    const { cart } = req.body;
+
     const buyerId = req.user._id;
     // Assuming the payment was successful (replace this with your actual logic)
-    const order = await new orderModel({
-      products: cart,
-      payment: {
-        /* Replace with your successful payment data */
-      },
-      buyer: buyerId,
-    }).save();
-    res.status(201).send({
-      success: true,
-      message: "Order Placed",
-      order,
+    const { nonce, cart } = req.body;
+    let total = 0;
+    cart.map((i) => {
+      total += i.price;
     });
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      function (error, result) {
+        if (result) {
+          const order = new orderModel({
+            products: cart,
+            payment: {
+              /* Replace with your successful payment data */
+            },
+            buyer: buyerId,
+          }).save();
+          res.status(201).send({
+            success: true,
+            message: "Order Placed",
+            order,
+          });
+        }
+      }
+    );
   } catch (error) {
     console.error(error);
     res.status(500).send(error);
@@ -68,14 +109,4 @@ export const getAllOrdersController = async (req, res) => {
       error,
     });
   }
-};
-
-//Payment
-export const paymentController = async (req, res) => {
-  const amount = req.body;
-  const paymentIntent = await stripe.paymentIntent.create({
-    amount,
-    currency: "INR",
-  });
-  res.status(200).json(paymentIntent.client_secret);
 };

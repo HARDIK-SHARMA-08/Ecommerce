@@ -12,15 +12,11 @@ const UserProfile = () => {
         src="https://lh3.googleusercontent.com/a/ACg8ocIE190z0-O3FGhbvddiCZX52vQpoZFgFLb3th68-wbxCTw=s360-c-no"
         alt="Bonnie image"
       />
-      <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white text capitalize">
+      <h5 className="mb-1 text-3xl font-extrabold text-[var(--black-color)] text capitalize">
         {auth.user.name}
       </h5>
-      <span className="text-sm text-gray-500 dark:text-gray-400">
-        {auth.user.email}
-      </span>
-      <span className="text-sm text-gray-500 dark:text-gray-400">
-        {auth.user.phone}
-      </span>
+      <span className="text-sm  text-gray-400">{auth.user.email}</span>
+      <span className="text-sm  text-gray-400">{auth.user.phone}</span>
       <div className="flex mt-4 space-x-3 md:mt-6">
         {auth.user.role == 1 ? <AdminMenu /> : <UserMenu />}
       </div>

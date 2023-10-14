@@ -1,3 +1,4 @@
+import { fa0 } from "@fortawesome/free-solid-svg-icons";
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(

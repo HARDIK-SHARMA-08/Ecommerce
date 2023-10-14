@@ -1,13 +1,13 @@
 /* @type {import('tailwindcss').Config} */
-const {nextui} = require("@nextui-org/react");
+
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}",
-  "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
   theme: {
-    extend: {},
+    colors: {
+      'background': "#1a1a1a",
+    },
   },
   darkMode: "class",
-  plugins: [nextui()],
   plugins: [require("flowbite/plugin")],
 };

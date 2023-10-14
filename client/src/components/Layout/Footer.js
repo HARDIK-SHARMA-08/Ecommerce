@@ -4,18 +4,16 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-white dark:bg-gray-900 bottom-0">
+      <footer className="bg-[var(--black-color)]  bottom-0">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center">
-                <img
-                  src="https://lh3.google.com/u/3/d/1LjfKRsM1D_qPruFSmxdK3ropdqUCP1Me=w1920-h883-iv1"
-                  className="h-12 mr-3"
-                  alt="Logo"
-                />
-                <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
-                CARTCRAFT
+                <span className="self-center text-5xl sm:text-6xl font-bold whitespace-nowrap font-[CustomFont] text-white">
+                  uncommon
+                  <span className="text-[var(--red-color)] font-extrabold text-6xl">
+                    .
+                  </span>
                 </span>
               </div>
             </div>
@@ -67,12 +65,12 @@ const Footer = () => {
                 </h2>
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                   <li className="mb-4">
-                    <Link to ="" className="hover:underline">
+                    <Link to="" className="hover:underline">
                       Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link to ="" className="hover:underline">
+                    <Link to="" className="hover:underline">
                       Terms &amp; Conditions
                     </Link>
                   </li>
@@ -85,7 +83,7 @@ const Footer = () => {
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
               <a href="https://flowbite.com/" className="hover:underline">
-                E-Commerce™
+                uncommon™
               </a>
               . All Rights Reserved.
             </span>

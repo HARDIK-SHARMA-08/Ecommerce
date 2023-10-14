@@ -101,13 +101,15 @@ const CreateCategogy = () => {
   return (
     <Layout>
       <>
-        <section className="p-8 z-0 bg-white dark:bg-gray-900 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')]">
+        <section className="p-8 z-0 bg-white ">
           <div className="flex flex-col-reverse items-center justify-between sm:flex-row-reverse sm:items-start px-4 text-center z-10 gap-6">
-            <div className="basis-3/4">
-              <div className="mb-6 text-3xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Manage Categogy{" "}
+            <div className="basis-3/4 w-[85vw]">
+              <div className="mb-6 text-3xl text-center font-semibold italic text-gray-900 md:text-5xl lg:text-6xl ">
+                Manage{" "}
+                <span class="before:block before:absolute before:-inset-1 before:-skew-y-2 hover:before:skew-y-3 before:ease-in before:duration-300 before:bg-[var(--red-color)] relative inline-block">
+                  <span class="relative text-white">category</span>
+                </span>
               </div>
-
               <div className="p-3">
                 <CategoryForm
                   handleSubmit={handleSubmit}
@@ -192,7 +194,7 @@ const CreateCategogy = () => {
                 </table>
               </div>
             </div>
-            <div className=" basis-1/4 w-full sm:sticky top-28 sm:w-4/12 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className=" basis-1/4  w-full sm:sticky top-28 sm:w-4/12 bg-white border-2 border-[var(--black-color)] rounded-lg shadow-xl">
               <UserProfile />
             </div>
           </div>

@@ -59,8 +59,8 @@ router.post("/product-filter", productFiltersController);
 //SEARCH PRODUCT || METHOD GET
 router.get("/search/:keyword", searchProductController);
 
-//Payment Route
-
+//CATEGORY WISE PRODUCTS || METHOD GET
+router.get("/product-category/:slug", productCategoryController);
 
 //product count
 router.get("/product-count", productCountController);
@@ -68,12 +68,10 @@ router.get("/product-count", productCountController);
 //product per page
 router.get("/product-list/:page", productListController);
 
-
 //similar product
 router.get("/related-product/:pid/:cid", realtedProductController);
 
-//category wise product
-router.get("/product-category/:slug", productCategoryController);
+
 
 
 

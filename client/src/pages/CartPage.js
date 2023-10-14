@@ -5,9 +5,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useAuth } from "../context/auth";
 import { useCart } from "../context/cart";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [auth, setAuth] = useAuth();
@@ -25,7 +23,7 @@ const Cart = () => {
     try {
       let total = 0;
       cart.map((item) => {
-        total = total + item.price;
+        total = total + item.quantity * item.price;
       });
       return total.toLocaleString("en-US", {
         style: "currency",
@@ -46,30 +44,6 @@ const Cart = () => {
       localStorage.setItem("cart", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  //Get Checkout gateway token
-
-  //Handle Checkouts
-  const handleCheckout = async () => {
-    try {
-      // Send the cart data to the backend
-      const { data } = await axios.post("/api/v1/order/checkout", {
-        cart,
-      });
-      if (data.success) {
-        localStorage.removeItem("cart");
-        setCart([]);
-        navigate("/dashboard/user/orders");
-        toast.success("Checkout Completed Successfully");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      // Handle other errors if needed
-      toast.error("An error occurred during checkout");
     }
   };
 
@@ -133,7 +107,7 @@ const Cart = () => {
                           <div className="ml-4 flex flex-1 flex-col">
                             <div>
                               <div className="flex justify-between text-base font-medium text-gray-900">
-                                <h3 className="font-bold">
+                                <h3 className="font-bold uppercase">
                                   <a href="#">{cart.name}</a>
                                 </h3>
                                 <p className="ml-4">
@@ -154,7 +128,7 @@ const Cart = () => {
                               <div className="flex">
                                 <button
                                   type="button"
-                                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                                  className="font-medium text-[var(--red-color)] hover:text-red-500"
                                   onClick={() => removeCartItem(cart._id)}
                                 >
                                   Remove
@@ -190,36 +164,51 @@ const Cart = () => {
             </ListItem>
 
             <ListItem>
-              <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                <div className="flex justify-between text-base font-medium text-gray-900">
-                  <p>Subtotal</p>
-                  <p>{totalPrice()}</p>
-                </div>
-                <p className="mt-0.5 text-sm text-gray-500">
-                  Shipping and taxes calculated at checkout.
-                </p>
-                <div className="mt-6">
-                  <button
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    onClick={handleCheckout}
-                  >
-                    Checkout
-                  </button>
-                </div>
-                <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                  <p>
-                    or{" "}
-                    <button
-                      type="button"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                      onClick={handleToggleDrawer}
-                    >
-                      Continue Shopping
-                      <span aria-hidden="true"> →</span>
-                    </button>
+              {cart.length > 0 ? (
+                <div className="border-t border-gray-200 px-4 py-6 sm:px-6 w-full">
+                  <div className="flex justify-between text-base font-medium text-gray-900">
+                    <p>Subtotal</p>
+                    <p>{totalPrice()}</p>
+                  </div>
+                  <p className="mt-0.5 text-sm text-gray-500">
+                    Shipping and taxes calculated at checkout.
                   </p>
+                  <div className="mt-6">
+                    {!auth.token ? (
+                      <>
+                        <Link to="/login">
+                          <button className="flex w-full items-center justify-center rounded-md border border-transparent bg-[var(--red-color)] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700">
+                            Login to Checkout
+                          </button>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/cart">
+                          <button className="flex w-full items-center justify-center rounded-md border border-transparent bg-[var(--red-color)] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700">
+                            Checkout
+                          </button>
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                  <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                    <p>
+                      or{" "}
+                      <button
+                        type="button"
+                        className="font-medium text-[var(--red-color)] hover:text-red-500"
+                        onClick={handleToggleDrawer}
+                      >
+                        Continue Shopping
+                        <span aria-hidden="true"> →</span>
+                      </button>
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
             </ListItem>
           </List>
         </div>

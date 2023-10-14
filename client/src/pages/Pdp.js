@@ -181,7 +181,7 @@ const ProductDetails = () => {
             .
           </span>
         </div>
-        <div className="max-w-screen flex items-center justify-center">
+        <div className="max-w-full flex items-center justify-evenly">
           <div className="grid grid-cols-1 gap-10 p-2 justify-center items-center sm:p-6 md:grid-cols-2 lg:grid-cols-3 lg:p-28 lg:pt-6 lg:pb-6">
             {relatedProducts.length
               ? relatedProducts.map((p) => (

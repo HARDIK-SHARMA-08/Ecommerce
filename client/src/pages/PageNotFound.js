@@ -18,7 +18,7 @@ const PageNotFound = () => {
                   need to go.
                 </p>
                 <Link to ="/">
-                <button className="sm:w-full lg:w-auto my-2 border rounded md py-4 px-8 text-center bg-white dark:bg-gray-900 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50">
+                <button className="sm:w-full lg:w-auto my-2 border rounded md py-4 px-8 text-center bg-[var(--red-color)] text-white hover:bg-indigo-700 ">
                   Take me there!
                 </button>
                 </Link>

@@ -4,6 +4,8 @@ Welcome to the MERN E-commerce Application README! This document provides an ove
 
 ## Live Link 
 You can check out a live demo of the E-commerce application at the following link: [Live Demo](https://uncommon.cyclic.app/)
+![image](https://github.com/HARDIK-SHARMA-08/MERN-Ecommerce-App/assets/72403424/d62a6c58-fa38-44ff-a33a-efddc39ebc73)
+
 
 ## Table of Contents
 

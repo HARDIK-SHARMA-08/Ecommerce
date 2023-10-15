@@ -58,7 +58,6 @@ Follow these steps to set up the E-commerce application:
 
 2. Install server dependencies:
    ```bash
-   cd server
    npm install
    ```
 
@@ -78,7 +77,6 @@ Follow these steps to set up the E-commerce application:
 5. Start the server and client applications:
    - Server:
      ```bash
-     cd ../server
      npm start
      ```
    - Client:

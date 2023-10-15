@@ -3,7 +3,7 @@
 Welcome to the MERN E-commerce Application README! This document provides an overview of the features and technologies used in this application, along with instructions for setting up and running the project.
 
 ## Live Link 
-You can check out a live demo of the E-commerce application at the following link: [Live Demo]([https://erin-jealous-armadillo.cyclic.app/])
+You can check out a live demo of the E-commerce application at the following link: [Live Demo](https://erin-jealous-armadillo.cyclic.app/)
 
 ## Table of Contents
 

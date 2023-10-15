@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.40bcb6df.chunk.css",
-  "main.js": "/static/js/main.4988c038.chunk.js",
-  "main.js.map": "/static/js/main.4988c038.chunk.js.map",
+  "main.js": "/static/js/main.2cc71beb.chunk.js",
+  "main.js.map": "/static/js/main.2cc71beb.chunk.js.map",
   "static/js/1.aae0894a.chunk.js": "/static/js/1.aae0894a.chunk.js",
   "static/js/1.aae0894a.chunk.js.map": "/static/js/1.aae0894a.chunk.js.map",
   "static/css/2.9d23a6b3.chunk.css": "/static/css/2.9d23a6b3.chunk.css",
@@ -13,10 +13,10 @@
   "static/media/Gojo_Back_2-removebg-preview.png": "/static/media/Gojo_Back_2-removebg-preview.c34a1dde.png",
   "static/media/0526420730_6_1_1-removebg-preview.png": "/static/media/0526420730_6_1_1-removebg-preview.b017e2f5.png",
   "static/media/0108401707_6_1_1-removebg-preview.png": "/static/media/0108401707_6_1_1-removebg-preview.161559cb.png",
-  "static/media/styles.css": "/static/media/revicons.17629a5d.ttf",
-  "static/css/main.40bcb6df.chunk.css.map": "/static/css/main.40bcb6df.chunk.css.map",
+  "static/media/styles.css": "/static/media/revicons.2feb69cc.eot",
   "static/css/2.9d23a6b3.chunk.css.map": "/static/css/2.9d23a6b3.chunk.css.map",
+  "static/css/main.40bcb6df.chunk.css.map": "/static/css/main.40bcb6df.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.50dfb6b54e39ae9606d605b924dc4b08.js": "/precache-manifest.50dfb6b54e39ae9606d605b924dc4b08.js",
+  "precache-manifest.6daf19ba44c0c80d782fb8e1eb78a9cf.js": "/precache-manifest.6daf19ba44c0c80d782fb8e1eb78a9cf.js",
   "service-worker.js": "/service-worker.js"
 }

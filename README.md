@@ -1,13 +1,13 @@
-# MERN-Ecommerce-App README
+# MERN-Ecommerce-App README 🛒
 
 Welcome to the MERN E-commerce Application README! This document provides an overview of the features and technologies used in this application, along with instructions for setting up and running the project.
 
-## Live Link 
+## Live Link 🚀 
 You can check out a live demo of the E-commerce application at the following link: [Live Demo](https://uncommon.cyclic.app/)
 
 ![image](https://github.com/HARDIK-SHARMA-08/MERN-Ecommerce-App/assets/72403424/d62a6c58-fa38-44ff-a33a-efddc39ebc73) 
 
-## Table of Contents
+## Table of Contents 📚
 
 - [Features](#features)
 - [Technologies Used](#technologies-used)
@@ -15,7 +15,7 @@ You can check out a live demo of the E-commerce application at the following lin
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 
-## Features
+## Features 🌟
 
 Our E-commerce application is designed to provide a seamless online shopping experience for both customers and administrators. The following features are implemented:
 
@@ -36,7 +36,7 @@ Our E-commerce application is designed to provide a seamless online shopping exp
    - Separate admin and user dashboards.
    - Only Admins can perform CRUD (Create, Read, Update, Delete) operations for categories and products.
    
-## Technologies Used
+## Technologies Used 💻
 
 The E-commerce application is built using a combination of technologies:
 
@@ -46,7 +46,7 @@ The E-commerce application is built using a combination of technologies:
 - **Tailwind CSS**: A utility-first CSS framework for styling.
 - **Context API**: For state management in the React application.
 
-## Installation
+## Installation 🛠️
 
 Follow these steps to set up the E-commerce application:
 
@@ -87,7 +87,7 @@ Follow these steps to set up the E-commerce application:
 
 The application should now be accessible in your web browser at `http://localhost:3000`.
 
-## Usage
+## Usage 🚀
 
 1. Visit the application in your browser.
 2. Register as a user or log in if you already have an account.
@@ -95,11 +95,11 @@ The application should now be accessible in your web browser at `http://localhos
 4. Use the PayPal Braintree integration to complete your purchase.
 5. If you are an admin, log in to the admin dashboard to manage categories and products.
 
-## Project Structure
+## Project Structure 📂
 
 The project is organized into two main directories:
 
 - **client**: Contains the React.js frontend application.
 - **server**: Contains the Node.js backend application and API.
 
-The `server` directory is further divided into subdirectories for routes, controllers, models, and middleware to keep the codebase clean and organized.
+The `server` directory is further divided into subdirectories for routes, controllers, models, and middleware to keep the codebase clean and organized. 🧹
